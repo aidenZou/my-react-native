@@ -6,6 +6,9 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react-native": "^0.15.0"
+    "react-native": "^0.15.0",
+    "react-native-navbar": "^1.0.7",
+    "react-native-scrollable-tab-view": "^0.1.10",
+    "react-native-tableview": "^1.4.6"
   }
 }

@@ -1,75 +1,75 @@
 'use strict';
 
 import React, {
-  // AppRegistry,
   Image,
   ListView,
   StyleSheet,
   Text,
-  View
+  View,
+  Navigator
 } from 'react-native';
 
-var styles = require('./styles');
+// var ScrollableTabView = require('react-native-scrollable-tab-view');
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
+// var TableView = require('react-native-tableview');
+// import TableView from 'react-native-tableview';
+
+import Navbar from './navbar.js';
+
+// var styles = require('./styles');
 // import styles from './list.js';
+import MyImage from './demo/Image.js';
 
-// var styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     flexDirection: 'row',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF',
-//   },
-//   listView: {
-//     paddingTop: 20,
-//     backgroundColor: '#F5FCFF',
-//   },
-//   rightContainer: {
-//     flex: 1,
-//   },
-//   title: {
-//     fontSize: 20,
-//     marginBottom: 8,
-//     textAlign: 'center',
-//   },
-//   year: {
-//     textAlign: 'center',
-//   },
-//   thumbnail: {
-//     width: 53,
-//     height: 81,
-//   }
-// });
-
-var API_KEY = '7waqfqbprs7pajbz28mqf6vz';
-var API_URL = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json';
-var PAGE_SIZE = 25;
-var PARAMS = '?apikey=' + API_KEY + '&page_limit=' + PAGE_SIZE;
-var REQUEST_URL = API_URL + PARAMS;
-// var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 30,
+  },
+  // container: {
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: '#F5FCFF',
+  // },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#F5FCFF',
+  },
+  rightContainer: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 20,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  year: {
+    textAlign: 'center',
+  },
+  thumbnail: {
+    width: 53,
+    height: 81,
+  }
+});
 
 export default class App extends React.Component{
 
   constructor(props){
       super(props);
       this.state = {
-        dataSource: new ListView.DataSource({
-          rowHasChanged: (row1, row2) => row1 !== row2,
-        }),
-        loaded: false,
+        // loaded: false,
       };
   }
 
   componentDidMount() {
-    this.fetchData();
+    // this.fetchData();
   }
 
   fetchData() {
     fetch(REQUEST_URL)
       .then((response) => response.json())
       .then((responseData) => {
-        console.log(responseData);
-
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
           loaded: true,
@@ -77,43 +77,53 @@ export default class App extends React.Component{
       })
       .done();
   }
+  // render() {
+  //   var rightButtonConfig = {
+  //     title: 'Next',
+  //     handler: function onNext() {
+  //       alert('hello!');
+  //     }
+  //   };
+  //
+  //   var titleConfig = {
+  //     title: 'Hello, world',
+  //   };
+  //
+  //   return (
+  //     <View style={{ flex: 1, }}>
+  //       <NavigationBar
+  //         title={titleConfig}
+  //         rightButton={rightButtonConfig} />
+  //     </View>
+  //   );
+  // }
+
+  // render() {
+  //   const rightButtonConfig = {
+  //     title: 'Next',
+  //     handler: () => alert('hello!'),
+  //   };
+  //
+  //   const titleConfig = {
+  //     title: 'Hello, world',
+  //   };
+  //
+  //   return (
+  //     <View style={{ flex: 1, }}>
+  //       <NavigationBar
+  //         title={titleConfig}
+  //         rightButton={rightButtonConfig} />
+  //     </View>
+  //   );
+  // }
 
   render() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView();
-    }
-
     return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderMovie}
-        style={styles.listView}
-      />
-    );
-  }
-
-  renderLoadingView() {
-    return (
-      <View style={styles.container}>
-        <Text>
-          Loading movies...
-        </Text>
+      <View>
+        <Navbar></Navbar>
+        <MyImage></MyImage>
       </View>
     );
   }
 
-  renderMovie(movie) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{uri: movie.posters.thumbnail}}
-          style={styles.thumbnail}
-        />
-        <View style={styles.rightContainer}>
-          <Text style={styles.title}>{movie.title}</Text>
-          <Text style={styles.year}>{movie.year}</Text>
-        </View>
-      </View>
-    );
-  }
 }
